@@ -8,6 +8,7 @@
  * All rights reserved.
  */
 
+/// ByteManager:
 function ByteManager()
 	{
 	/// Array de bytes. Aqui serão guardados todos os bytes declarados:
