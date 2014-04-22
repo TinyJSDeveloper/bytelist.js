@@ -1,5 +1,5 @@
 /*
- * bytelist.js v0.1
+ * bytelist.js v0.2
  *
  * Released under BSD 3-Clause License:
  * https://github.com/TinyJSDeveloper/bytelist.js/blob/master/LICENSE
@@ -8,7 +8,7 @@
  * All rights reserved.
  */
 
-function ByteMini()
+function ByteList()
 {
 this.value = [];
 
@@ -152,5 +152,84 @@ this.math = function(sentValue,mathSymbol,startPos,howManyBytes){
 		}
 	
 	this.write(numArray,'@ovr',startPos);
+	};
+}
+var $byte = new ByteList();
+
+
+function ByteArray(arrayType,arraySize)
+{
+if(arrayType === '@static'){
+	//@if_Start:
+	arrayType = false;
+	}
+else if(arrayType === '@dynamic'){
+	//@elseif_Start:
+	arrayType = true;
+	}
+
+if(arraySize < 0 || arraySize == null){
+	//@if_Start:
+	arraySize = 0;
+	}
+
+this.value = new Uint8Array(arraySize);
+this.isDynamic = arrayType;
+
+/// Tamanho da ByteArray:
+this.size = function(){
+	//@function_Start:
+	return this.value.length;
+	};
+
+/// Obter valor em formato não-Uint8:
+this.nonByteValue = function(){
+	//@function_Start:
+	var pureArray = [];
+	
+	for(i = 0; i < this.size(); i += 1){
+		//@for_Start:
+		pureArray[i] = this.value[i];
+		};
+	
+	return pureArray;
+	};
+
+/// Importar uma Array não-Uint8 para a ByteArray:
+this.import = function(sentArray){
+	//@function_Start:
+	if(this.isDynamic === true){
+		//@if_Start:
+		this.value = new Uint8Array(sentArray.length);
+		}
+	
+	for(i = 0; i < this.size(); i += 1){
+			//@for_Start:
+			this.value[i] = sentArray[i];
+			}
+	};
+
+/// Escrever conteúdo na ByteArray:
+this.write = function(byteArray,typeMode,startPos){
+	//@function_Start:
+	$byte.value = this.nonByteValue();
+	$byte.write(byteArray,typeMode,startPos);
+	this.import($byte.value);
+	};
+
+/// Limpar a ByteArray:
+this.clear = function(clearMode,startPos,howManyBytes){
+	//@function_Start:
+	$byte.value = this.nonByteValue();
+	$byte.clear(clearMode,startPos,howManyBytes);
+	this.import($byte.value);
+	};
+
+/// Operações matemáticas:
+this.math = function(sentValue,mathSymbol,startPos,howManyBytes){
+	//@function_Start:
+	$byte.value = this.nonByteValue();
+	$byte.math(sentValue,mathSymbol,startPos,howManyBytes);
+	this.import($byte.value);
 	};
 }
