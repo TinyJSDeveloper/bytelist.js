@@ -1,5 +1,5 @@
 /*
- * bytelist.js v0.0
+ * bytelist.js v0.1
  *
  * Released under BSD 3-Clause License:
  * https://github.com/TinyJSDeveloper/bytelist.js/blob/master/LICENSE
@@ -32,16 +32,16 @@ this.intfyString = function(sentString){
 	};
 
 /// Zerar a ByteArray:
-this.clear = function(clearMode,startPos,howMany){
+this.clear = function(clearMode,startPos,howManyBytes){
 	//@function_Start:
-	if(howMany < 1 || howMany == null){
+	if(howManyBytes < 1 || howManyBytes == null){
 		//@if_Start:
-		howMany = 1;
+		howManyBytes = 1;
 		}
 	
 	if(clearMode === '@range'){
 		//@if_Start:
-		for(i = 0; i < howMany; i += 1){
+		for(i = 0; i < howManyBytes; i += 1){
 			//@for_Start:
 			this.value.splice(startPos+i,1);
 			}
@@ -56,6 +56,7 @@ this.clear = function(clearMode,startPos,howMany){
 /// Escrever uma série de valores na ByteArray:
 this.write = function(byteArray,typeMode,startPos){
 	//@function_Start:
+	var Uint8Data = new Uint8Array(1);
 	
 	if(startPos < 0 || startPos == null){
 		//@if_Start:
@@ -69,21 +70,87 @@ this.write = function(byteArray,typeMode,startPos){
 	
 	for(i = 0; i < byteArray.length; i += 1){
 		//@for_Start:
+		Uint8Data[0] = byteArray[i];
+		
 		if(typeMode === '@ins'){
 			//@if_Start:
-			this.value.splice(startPos+i,0,byteArray[i]);
+			this.value.splice(startPos+i,0,Uint8Data[0]);
 			}
-		
 		else if(typeMode === '@ovr'){
 			//@elseif_Start:
-			this.value[startPos+i] = byteArray[i];
+			this.value[startPos+i] = Uint8Data[0];
 			}
-		
 		else if(typeMode === '@rep'){
 			//@elseif_Start:
-			this.clear('@all');
-			this.value[i] = byteArray[i];
+			if(i === 0){
+				//@if_Start:
+				this.clear('@all');
+				}
+			
+			this.value[i] = Uint8Data[0];
 			}
 		}
+	};
+
+/// Operações matemáticas:
+this.math = function(sentValue,mathSymbol,startPos,howManyBytes){
+	//@function_Start:
+	var numArray = [];
+	var numString;
+	
+	if(startPos < 0 || startPos == null){
+		//@if_Start:
+		startPos = 0;
+		}
+	
+	if(howManyBytes < 1 || howManyBytes == null){
+		//@if_Start:
+		howManyBytes = 1;
+		}
+	
+	for(i = 0; i < howManyBytes; i += 1){
+		//@for_Start:
+		numArray[i] = this.value[startPos+i];
+		numArray[i] = numArray[i].toString(16);
+		
+		if(numArray[i].length % 2 === 1){
+			//if_Start:
+			numArray[i] = '0' + numArray[i];
+			}
+		}
+	
+	numString = numArray.join('');
+	numString = parseInt(numString,16);
+	
+	if(mathSymbol === '@+'){
+		//@if_Start:
+		numString = numString + sentValue;
+		}
+	else if(mathSymbol === '@-'){
+		//@elseif_Start:
+		numString = numString - sentValue;
+		}
+	else if(mathSymbol === '@*'){
+		//@elseif_Start:
+		numString = numString * sentValue;
+		}
+	else if(mathSymbol === '@/'){
+		//@elseif_Start:
+		numString = numString / sentValue;
+		}
+	
+	numString = numString.toString(16);
+	for(i = numString.length; i < numArray.length*2; i += 1){
+		//@for_Start:
+		numString = '0' + numString;
+		}
+		
+	for(i = 0; i < numArray.length; i += 1){
+		//@for_Start:
+		numArray[i] = numString[i*2] + numString[i*2+1];
+		numArray[i] = parseInt(numArray[i],16);
+		}
+	
+	this.write(numArray,'@ovr',startPos);
 	};
 }
