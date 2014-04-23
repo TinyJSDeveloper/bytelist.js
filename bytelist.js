@@ -1,5 +1,5 @@
 /*
- * bytelist.js v0.2
+ * bytelist.js v0.3
  *
  * Released under BSD 3-Clause License:
  * https://github.com/TinyJSDeveloper/bytelist.js/blob/master/LICENSE
@@ -144,7 +144,7 @@ this.math = function(sentValue,mathSymbol,startPos,howManyBytes){
 		//@for_Start:
 		numString = '0' + numString;
 		}
-		
+	
 	for(i = 0; i < numArray.length; i += 1){
 		//@for_Start:
 		numArray[i] = numString[i*2] + numString[i*2+1];
@@ -155,6 +155,9 @@ this.math = function(sentValue,mathSymbol,startPos,howManyBytes){
 	};
 }
 var $byte = new ByteList();
+
+
+//---------------------------------------------------------------------------//
 
 
 function ByteArray(arrayType,arraySize)
@@ -210,10 +213,19 @@ this.import = function(sentArray){
 	};
 
 /// Escrever conteúdo na ByteArray:
-this.write = function(byteArray,typeMode,startPos){
+this.write = function(byteArray,byteOrder,typeMode,startPos){
 	//@function_Start:
 	$byte.value = this.nonByteValue();
-	$byte.write(byteArray,typeMode,startPos);
+	
+	if(byteOrder === '@be'){
+		//@if_Start:
+		$byte.write(byteArray,typeMode,startPos);
+		}
+	else if(byteOrder === '@le'){
+		//@elseif_Start:
+		$byte.write(byteArray.reverse(),typeMode,startPos);
+		}
+	
 	this.import($byte.value);
 	};
 
@@ -226,10 +238,19 @@ this.clear = function(clearMode,startPos,howManyBytes){
 	};
 
 /// Operações matemáticas:
-this.math = function(sentValue,mathSymbol,startPos,howManyBytes){
+this.math = function(sentValue,mathSymbol,byteOrder,startPos,howManyBytes){
 	//@function_Start:
 	$byte.value = this.nonByteValue();
-	$byte.math(sentValue,mathSymbol,startPos,howManyBytes);
+	
+	if(byteOrder === '@be'){
+		//@if_Start:
+		$byte.math(sentValue,mathSymbol,startPos,howManyBytes);
+		}
+	else if(byteOrder === '@le'){
+		//@elseif_Start:
+		$byte.math(sentValue.reverse(),mathSymbol,startPos,howManyBytes);
+		}
+	
 	this.import($byte.value);
 	};
 }
