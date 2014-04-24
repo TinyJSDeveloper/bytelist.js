@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>bytelist.js - Documentação</title>
+<style>
+body{
+    font-family:Arial;
+    }
+
+h1  {
+	text-align:center;
+	margin:0px auto;
+	}
+
+h2,h3,h4,h5,h6{
+	margin:0px auto;
+	}
+
+.center{
+       text-align:center;
+       }
+
+p   {
+    padding:2px;
+    }
+
+.mark   {
+        background-color:Gainsboro;
+        }
+
+div {
+    text-align:center;
+	width:38%;
+	margin:auto;
+	background-color:Gainsboro;
+    }
+
+pre {
+    text-align:left;
+	margin:18px;
+    }
+</style>
+</head>
+<body>
+<h1>bytelist.js v0.2 - Documentação</h1>
+<aside class='center'>Por TinyJSDeveloper</aside>
+<h2>Sumário:</h2>
+<hr>
+<ul>
+<li><a href='#Introdução'>Introdução</a></li>
+<li><a href='#A variável $byte'>A variável $byte:</a></li>
+	<ul>
+	<li><a href='#A variável $byte/$byte.value[]'>$byte.value[]</a></li>
+	<li><a href='#A variável $byte/$byte.size()'>$byte.size()</a></li>
+	<li><a href='#A variável $byte/$byte.intfyString()'>$byte.intfyString()</a></li>
+	<li><a href='#A variável $byte/$byte.clear()'>$byte.clear()</a></li>
+	<li><a href='#A variável $byte/$byte.write()'>$byte.write()</a></li>
+	<li><a href='#A variável $byte/$byte.math()'>$byte.math()</a></li>
+	</ul>
+</ul>
+
+<h3 id='Introdução'>Introdução:</h3>
+<hr>
+<p>
+WIP.
+</p>
+
+<h3 id='A variável $byte'>A variável $byte:</h3>
+<hr>
+<p>
+Todos os construtores <code class='mark'>ByteList()</code> dependem de
+um utilitário global <code class='mark'>$byte</code> para funcionarem. 
+Este utilitário faz toda a manipulação de <i>bytes</i> no lugar das 
+<i>ByteLists</i>, ou seja, todas as instâncias criadas são dependentes 
+desta única variável. É importante entender, portanto, que as funções 
+presentes nas <i>ByteLists</i> nada mais fazem do que direcionar os 
+seus parâmetros para o <code class='mark'>$byte</code>, para que o 
+mesmo retorne a resposta em seguida. Isso as torna bem compactas, 
+tendo em vista que todas utilizam um único conjunto de funçòes.
+</p>
+
+<h4 id='A variável $byte/$byte.value[]'>$byte.value[]:</h4>
+<hr>
+<p>
+Esta é a <i>Array</i> principal. Todos os valores são mantidos aqui 
+para serem depois manipulados de diversas maneiras. Note, porém, que 
+esta é uma <i>Array</i> padrão, e não uma <i>Uint8Array</i>, como no 
+caso das <i>ByteLists</i>.
+</p>
+<p>
+<div>
+<pre>
+<code>
+$byte.value[0] = 0x0F; // Adicionar 0x0F (15) para a primeira index.
+alert($byte.value[0]); // A mensagem deverá mostrar '15'.
+</code>
+</pre>
+</div>
+</p>
+
+<h4 id='A variável $byte/$byte.size()'>$byte.size():</h4>
+<hr>
+<p>
+Retorna a <i>length</i> da variável <code class='mark'>$byte.value[]</code>.
+</p>
+<p>
+<div>
+<pre>
+<code>
+$byte.value[0] = 0x0F; // Adicionar 0x0F (15) para a primeira index.
+$byte.value[1] = 0x05; // Adicionar 0x05 (5) para a segunda index.
+
+// Criando uma variável para guardar a Length do $byte:
+var byteSize;
+    byteSize = $byte.value.size();
+
+// A mensagem deverá mostrar '2':
+alert(byteSize);
+</code>
+</pre>
+</div>
+</p>
+
+<h4 id='A variável $byte/$byte.intfyString()'>$byte.intfyString(sentString):</h4>
+<hr>
+<p>
+Recebe uma <i>String</i> e retorna uma <i>Array</i> de <i>bytes</i> 
+contendo todos os seus caracteres convertidos para hexadecimal.
+</p>
+<p>
+<strong>Parâmetro(s):</strong>
+<ul>
+<li><code>sentString:</code> <i>String</i> a ser passada.</li>
+</ul>
+</p>
+<p>
+<div>
+<pre>
+<code>
+// Definindo uma String pequena:
+var tinyString;
+    tinyString = "Text";
+
+// Guardaremos a Array de bytes da String aqui:
+var byteString;
+    byteString = $byte.intfyString(tinyString);
+
+// Deverá mostrar '84,101,120,116' (0x54,0x65,0x78,0x74):
+alert(byteString);
+</code>
+</pre>
+</div>
+</p>
+
+<h4 id='A variável $byte/$byte.clear()'>$byte.clear(clearMode,startPos,howManyBytes):</h4>
+<hr>
+<p>
+Limpa uma determinada quantidade de posições ou mesmo 
+a <i>Array</i> inteira. 
+</p>
+<p>
+<strong>Parâmetro(s):</strong>
+<ul>
+<li><code>clearMode:</code> Modo de limpeza a ser escolhido:</li>
+	<ul>
+	<li><code class='mark'>'@range'</code>: Determina que a limpeza será de uma ou mais posições.</li>
+	<li><code class='mark'>'@all'</code>: Determina que toda a <i>Array</i> será apagada.</li>
+	</ul>
+<li><code>startPos:</code> Só é utilizado se o <code>clearMode</code> for
+<code class='mark'>'@range'</code>. Indica qual será a primeira posição 
+a ser deletada.
+</li>
+<li><code>howManyBytes:</code> Só é utilizado se o <code>clearMode</code> for
+<code class='mark'>'@range'</code>. Indica quantos <i>bytes</i> à frente, 
+contando com o primeiro selecionado, serão deletados no total.
+</li>
+</ul>
+</p>
+<p>
+<div>
+<pre>
+<code>
+// WIP.
+</code>
+</pre>
+</div>
+</p>
+</body>
+</html>
