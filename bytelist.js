@@ -43,7 +43,7 @@ this.clear = function(clearMode,startPos,howManyBytes){
 		//@if_Start:
 		for(i = 0; i < howManyBytes; i += 1){
 			//@for_Start:
-			this.byteValue.splice(startPos+i,1);
+			this.byteValue.splice(startPos,1);
 			}
 		}
 	
