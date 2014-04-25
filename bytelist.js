@@ -10,12 +10,12 @@
 
 function ByteList()
 {
-this.value = [];
+this.byteValue = [];
 
 /// Tamanho da ByteArray:
 this.size = function(){
 	//@function_Start:
-	return this.value.length;
+	return this.byteValue.length;
 	};
 
 /// Converter uma String para uma Array de Char Codes:
@@ -43,13 +43,13 @@ this.clear = function(clearMode,startPos,howManyBytes){
 		//@if_Start:
 		for(i = 0; i < howManyBytes; i += 1){
 			//@for_Start:
-			this.value.splice(startPos+i,1);
+			this.byteValue.splice(startPos+i,1);
 			}
 		}
 	
 	else if(clearMode === '@all'){
 		//@elseif_Start:
-		this.value = [];
+		this.byteValue = [];
 		}
 	};
 
@@ -74,11 +74,11 @@ this.write = function(byteArray,typeMode,startPos){
 		
 		if(typeMode === '@ins'){
 			//@if_Start:
-			this.value.splice(startPos+i,0,Uint8Data[0]);
+			this.byteValue.splice(startPos+i,0,Uint8Data[0]);
 			}
 		else if(typeMode === '@ovr'){
 			//@elseif_Start:
-			this.value[startPos+i] = Uint8Data[0];
+			this.byteValue[startPos+i] = Uint8Data[0];
 			}
 		else if(typeMode === '@rep'){
 			//@elseif_Start:
@@ -87,7 +87,7 @@ this.write = function(byteArray,typeMode,startPos){
 				this.clear('@all');
 				}
 			
-			this.value[i] = Uint8Data[0];
+			this.byteValue[i] = Uint8Data[0];
 			}
 		}
 	};
@@ -110,7 +110,7 @@ this.math = function(sentValue,mathSymbol,startPos,howManyBytes){
 	
 	for(i = 0; i < howManyBytes; i += 1){
 		//@for_Start:
-		numArray[i] = this.value[startPos+i];
+		numArray[i] = this.byteValue[startPos+i];
 		numArray[i] = numArray[i].toString(16);
 		
 		if(numArray[i].length % 2 === 1){
@@ -176,13 +176,13 @@ if(arraySize < 0 || arraySize == null){
 	arraySize = 0;
 	}
 
-this.value = new Uint8Array(arraySize);
+this.byteValue = new Uint8Array(arraySize);
 this.isDynamic = arrayType;
 
 /// Tamanho da ByteArray:
 this.size = function(){
 	//@function_Start:
-	return this.value.length;
+	return this.byteValue.length;
 	};
 
 /// Obter valor em formato não-Uint8:
@@ -192,30 +192,30 @@ this.nonByteValue = function(){
 	
 	for(i = 0; i < this.size(); i += 1){
 		//@for_Start:
-		pureArray[i] = this.value[i];
+		pureArray[i] = this.byteValue[i];
 		};
 	
 	return pureArray;
 	};
 
 /// Importar uma Array não-Uint8 para a ByteArray:
-this.import = function(sentArray){
+this.importArray = function(sentArray){
 	//@function_Start:
 	if(this.isDynamic === true){
 		//@if_Start:
-		this.value = new Uint8Array(sentArray.length);
+		this.byteValue = new Uint8Array(sentArray.length);
 		}
 	
 	for(i = 0; i < this.size(); i += 1){
 			//@for_Start:
-			this.value[i] = sentArray[i];
+			this.byteValue[i] = sentArray[i];
 			}
 	};
 
 /// Escrever conteúdo na ByteArray:
 this.write = function(byteArray,byteOrder,typeMode,startPos){
 	//@function_Start:
-	$byte.value = this.nonByteValue();
+	$byte.byteValue = this.nonByteValue();
 	
 	if(byteOrder === '@be'){
 		//@if_Start:
@@ -226,21 +226,21 @@ this.write = function(byteArray,byteOrder,typeMode,startPos){
 		$byte.write(byteArray.reverse(),typeMode,startPos);
 		}
 	
-	this.import($byte.value);
+	this.importArray($byte.byteValue);
 	};
 
 /// Limpar a ByteArray:
 this.clear = function(clearMode,startPos,howManyBytes){
 	//@function_Start:
-	$byte.value = this.nonByteValue();
+	$byte.byteValue = this.nonByteValue();
 	$byte.clear(clearMode,startPos,howManyBytes);
-	this.import($byte.value);
+	this.importArray($byte.byteValue);
 	};
 
 /// Operações matemáticas:
 this.math = function(sentValue,mathSymbol,byteOrder,startPos,howManyBytes){
 	//@function_Start:
-	$byte.value = this.nonByteValue();
+	$byte.byteValue = this.nonByteValue();
 	
 	if(byteOrder === '@be'){
 		//@if_Start:
@@ -251,6 +251,6 @@ this.math = function(sentValue,mathSymbol,byteOrder,startPos,howManyBytes){
 		$byte.math(sentValue.reverse(),mathSymbol,startPos,howManyBytes);
 		}
 	
-	this.import($byte.value);
+	this.importArray($byte.byteValue);
 	};
 }
