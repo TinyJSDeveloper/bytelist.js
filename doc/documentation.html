@@ -31,7 +31,7 @@ p   {
 
 div {
     text-align:center;
-	width:38%;
+	width:50%;
 	margin:auto;
 	background-color:Gainsboro;
     }
@@ -43,7 +43,7 @@ pre {
 </style>
 </head>
 <body>
-<h1>bytelist.js v0.2 - Documentação</h1>
+<h1>bytelist.js v0.3 - Documentação</h1>
 <aside class='center'>Por TinyJSDeveloper</aside>
 <h2>Sumário:</h2>
 <hr>
@@ -51,7 +51,7 @@ pre {
 <li><a href='#Introdução'>Introdução</a></li>
 <li><a href='#A variável $byte'>A variável $byte:</a></li>
 	<ul>
-	<li><a href='#A variável $byte/$byte.value[]'>$byte.value[]</a></li>
+	<li><a href='#A variável $byte/$byte.byteValue[]'>$byte.byteValue[]</a></li>
 	<li><a href='#A variável $byte/$byte.size()'>$byte.size()</a></li>
 	<li><a href='#A variável $byte/$byte.intfyString()'>$byte.intfyString()</a></li>
 	<li><a href='#A variável $byte/$byte.clear()'>$byte.clear()</a></li>
@@ -80,7 +80,7 @@ mesmo retorne a resposta em seguida. Isso as torna bem compactas,
 tendo em vista que todas utilizam um único conjunto de funçòes.
 </p>
 
-<h4 id='A variável $byte/$byte.value[]'>$byte.value[]:</h4>
+<h4 id='A variável $byte/$byte.byteValue[]'>$byte.byteValue[]:</h4>
 <hr>
 <p>
 Esta é a <i>Array</i> principal. Todos os valores são mantidos aqui 
@@ -92,8 +92,8 @@ caso das <i>ByteLists</i>.
 <div>
 <pre>
 <code>
-$byte.value[0] = 0x0F; // Adicionar 0x0F (15) para a primeira index.
-alert($byte.value[0]); // A mensagem deverá mostrar '15'.
+$byte.byteValue[0] = 0x0F; // Adicionar 0x0F (15) para a primeira index.
+alert($byte.byteValue[0]); // A mensagem deverá mostrar '15'.
 </code>
 </pre>
 </div>
@@ -108,12 +108,12 @@ Retorna a <i>length</i> da variável <code class='mark'>$byte.value[]</code>.
 <div>
 <pre>
 <code>
-$byte.value[0] = 0x0F; // Adicionar 0x0F (15) para a primeira index.
-$byte.value[1] = 0x05; // Adicionar 0x05 (5) para a segunda index.
+$byte.byteValue[0] = 0x0F; // Adicionar 0x0F (15) para a primeira index.
+$byte.byteValue[1] = 0x05; // Adicionar 0x05 (5) para a segunda index.
 
 // Criando uma variável para guardar a Length do $byte:
 var byteSize;
-    byteSize = $byte.value.size();
+    byteSize = $byte.byteValue.size();
 
 // A mensagem deverá mostrar '2':
 alert(byteSize);
@@ -181,10 +181,82 @@ contando com o primeiro selecionado, serão deletados no total.
 <div>
 <pre>
 <code>
-// WIP.
+// Adicionar 5 valores na Array:
+$byte.byteValue[0] = 0x0;
+$byte.byteValue[1] = 0x1;
+$byte.byteValue[2] = 0x2;
+$byte.byteValue[3] = 0x3;
+$byte.byteValue[4] = 0x4;
+
+// Remover posições, começando no [2] e mais outra à direita:
+$byte.clear('@range',2,2);
+
+// A mensagem deverá mostrar '0,1,4':
+alert($byte.byteValue);
+
+// Agora vamos deletar tudo:
+$byte.clear('@all');
+
+// A mensagem deverá não mostrar nada, pois TUDO é apagado:
+alert($byte.byteValue);
 </code>
 </pre>
 </div>
+</p>
+
+<h4 id='A variável $byte/$byte.write()'>$byte.write(byteArray,typeMode,startPos):</h4>
+<hr>
+<p>
+Escreve uma <i>Array</i> de <i>bytes</i> ou uma <i>String</i> em uma ou mais posições existentes.
+</p>
+<p>
+<strong>Parâmetro(s):</strong>
+<ul>
+<li><code>byteArray:</code> <i>Array</i> de <i>bytes</i> a ser adicionada. 
+Note que não é possível ler valores "soltos", você precisará 
+passá-los com colchetes. Você também pode passar uma <i>String</i> para 
+ser escrita na <i>Array</i> de <i>bytes</i>, nesse caso, todos os 
+caracteres existentes serão devidamente passados para seus valores 
+correspondentes ao <i>CharCode</i> de cada um.</li>
+<li><code>typeMode:</code> Modo de digitação a ser escolhido:</li>
+	<ul>
+	<li><code class='mark'>'@ins'</code>: Adicionar e inserir <i>bytes</i>, 
+	movendo os demais para uma posição a mais, se necessário.</li>
+	<li><code class='mark'>'@ovr'</code>: Adicionar e sobrescrever <i>bytes</i>
+	que estiverem em seu caminho.</li>
+	<li><code class='mark'>'@rep'</code>: Substituir toda a <i>Array</i> de 
+	<i>bytes</i> existente por esta que for passada. Todos os <i>bytes</i> 
+	anteriormente presentes serão perdidos.</li>
+	</ul>
+<li><code>startPos:</code> Descartável quando o <code>typeMode</code> 
+for <code class='mark'>'@rep'</code>. Indica qual a primeira 
+posição a receber o primeiro valor da <code>byteArray</code>. Se 
+este valor não for especificado, a <code>byteArray</code> será 
+adicionada na última posição livre existente, determinada pela 
+função <code class='mark'>$byte.size()</code>.</li>
+</ul>
+</p>
+<p>
+<div>
+<pre>
+<code>
+$byte.write([0x0,0x1,0x2],'@ins'); // Inserir 3 valores na Array.
+alert($byte.byteValue);            // A mensagem deverá mostrar '0,1,2'.
+
+$byte.write([0xA,0xB,0xC],'@ovr'); // Sobrescrever os bytes existentes por estes.
+alert($byte.byteValue);            // A mensagem deverá mostrar '10,11,12'.
+
+$byte.write("BYTE",'@rep');        // Substituir toda a Array por uma String.
+alert($byte.byteValue);            // A mensagem deverá mostrar '66,89,84,69'.
+</code>
+</pre>
+</div>
+</p>
+
+<h4 id='A variável $byte/$byte.math()'>$byte.math(sentValue,mathSymbol,startPos,howManyBytes):</h4>
+<hr>
+<p>
+WIP.
 </p>
 </body>
 </html>
