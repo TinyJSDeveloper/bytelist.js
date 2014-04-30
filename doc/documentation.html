@@ -58,6 +58,7 @@ pre {
 	<li><a href='#A variável $byte/$byte.write()'>$byte.write()</a></li>
 	<li><a href='#A variável $byte/$byte.math()'>$byte.math()</a></li>
 	</ul>
+<li><a href='#O construtor ByteList()'>O construtor ByteList():</a></li>
 </ul>
 
 <h3 id='Introdução'>Introdução:</h3>
@@ -254,6 +255,46 @@ alert($byte.byteValue);            // A mensagem deverá mostrar '66,89,84,69'.
 </p>
 
 <h4 id='A variável $byte/$byte.math()'>$byte.math(sentValue,mathSymbol,startPos,howManyBytes):</h4>
+<hr>
+<p>
+Faz as quatro operações matemáticas básicas: adição, subtração, 
+multiplicação e divisão. Pode calcular de acordo com a <i>Array</i> 
+inteira ou apenas um pedaço dela. A ordem dos <i>bytes</i> é em 
+<i>Big Endian</i> (da esquerda para a direita).
+</p>
+<p>
+<strong>Parâmetro(s):</strong>
+<ul>
+<li><code>sentValue:</code> O valor que será adicionado, subtraído, multiplicado ou dividido pela <i>Array</i>.</li>
+<li><code>mathSymbol:</code> Símbolo da operação matemática a ser executada:</li>
+	<ul>
+	<li><code class='mark'>'@+'</code>: Adição.</li>
+	<li><code class='mark'>'@-'</code>: Subtração.</li>
+	<li><code class='mark'>'@*'</code>: Multiplicação.</li>
+	<li><code class='mark'>'@/'</code>: Divisão.</li>
+	</ul>
+<li><code>startPos:</code> Desnecessário quando se quiser usar a <i>Array</i> inteira. Indica qual a primeira posição a ser 
+cortada para a operação.</li>
+<li><code>howManyBytes:</code> Desnecessário quando se quiser usar a <i>Array</i> inteira. Indica quantos <i>bytes</i>, 
+contando a partir da primeira posição escolhida, serão usados para se fazer a operação.
+</ul>
+</p>
+<p>
+<div>
+<pre>
+<code>
+$byte.write([0x0,0x0,0x0,0xFF],'@ins'); // Adicionar 4 valores na Array.
+$byte.math(1,'@+',2,2);                 // +1 para o [0x0,0xFF] no final.
+alert($byte.byteValue);                 // A mensagem deverá mostrar '0,0,1,0'.
+
+$byte.math(2,'@/');     // Dividir toda a Array por 2.
+alert($byte.byteValue); // A mensagem deverá mostrar '0,0,0,128'.
+</code>
+</pre>
+</div>
+</p>
+
+<h3 id='O construtor ByteList()'>O construtor ByteList():</h3>
 <hr>
 <p>
 WIP.
