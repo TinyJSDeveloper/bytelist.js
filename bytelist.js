@@ -105,7 +105,7 @@ this.math = function(sentValue,mathSymbol,startPos,howManyBytes){
 	
 	if(howManyBytes < 1 || howManyBytes == null){
 		//@if_Start:
-		howManyBytes = 1;
+		howManyBytes = this.size();
 		}
 	
 	for(i = 0; i < howManyBytes; i += 1){
