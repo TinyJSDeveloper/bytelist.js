@@ -4,42 +4,14 @@
 <meta charset='UTF-8'>
 <title>bytelist.js - Documentação</title>
 <style>
-body{
-    font-family:Arial;
-    }
-
-h1  {
-	text-align:center;
-	margin:0px auto;
-	}
-
-h2,h3,h4,h5,h6{
-	margin:0px auto;
-	}
-
-.center{
-       text-align:center;
-       }
-
-p   {
-    padding:2px;
-    }
-
-.mark   {
-        background-color:Gainsboro;
-        }
-
-div {
-    text-align:center;
-	width:50%;
-	margin:auto;
-	background-color:Gainsboro;
-    }
-
-pre {
-    text-align:left;
-	margin:18px;
-    }
+body{font-family:Arial;}
+h1{text-align:center;margin:0px auto;}
+h2,h3,h4,h5,h6{margin:0px auto;}
+.center{text-align:center;}
+p{padding:2px;}
+.mark{background-color:Gainsboro;}
+div{text-align:center;width:50%;margin:auto;background-color:Gainsboro;}
+pre{text-align:left;margin:18px;}
 </style>
 </head>
 <body>
@@ -59,6 +31,9 @@ pre {
 	<li><a href='#A variável $byte/$byte.math()'>$byte.math()</a></li>
 	</ul>
 <li><a href='#O construtor ByteList()'>O construtor ByteList():</a></li>
+	<ul>
+	<li><a href='#O construtor ByteList()/new ByteList()'>new ByteList()</a></li>
+	</ul>
 </ul>
 
 <h3 id='Introdução'>Introdução:</h3>
@@ -287,14 +262,28 @@ $byte.write([0x0,0x0,0x0,0xFF],'@ins'); // Adicionar 4 valores na Array.
 $byte.math(1,'@+',2,2);                 // +1 para o [0x0,0xFF] no final.
 alert($byte.byteValue);                 // A mensagem deverá mostrar '0,0,1,0'.
 
-$byte.math(2,'@/');     // Dividir toda a Array por 2.
-alert($byte.byteValue); // A mensagem deverá mostrar '0,0,0,128'.
+$byte.math(2,'@/');                     // Dividir toda a Array por 2.
+alert($byte.byteValue);                 // A mensagem deverá mostrar '0,0,0,128'.
 </code>
 </pre>
 </div>
 </p>
 
 <h3 id='O construtor ByteList()'>O construtor ByteList():</h3>
+<hr>
+<p>
+Os construtores <code class='mark'>ByteList()</code> são <i>Arrays</i> de <i>bytes</i> 
+completamente manipuláveis. Possuem os mesmos critérios da modesta 
+<code class='mark'>Uint8Array()</code> e vários atributos a mais: funções próprias 
+para a manipulação de seus <i>bytes</i>, realizar operações matemáticas, escolher 
+entre utilizar uma <i>Array</i> de <i>bytes</i> estática ou dinâmica, e vários outros 
+elementos que facilitam a manipulação de valores. Suas funções, na realidade, nada mais 
+são do que redirecionadores para a variável global <code class='mark'>$byte</code>, que 
+processa o que lhe foi pedido e envia o resultado de volta para a <code class='mark'>ByteList()</code> 
+correspondente.
+</p>
+
+<h4 id='O construtor ByteList()/new ByteList()'>new ByteList(arrayType,arraySize):</h3>
 <hr>
 <p>
 WIP.
