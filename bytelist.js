@@ -8,7 +8,7 @@
  * All rights reserved.
  */
 
-function ByteList()
+function ByteCache()
 {
 this.byteValue = [];
 
@@ -154,13 +154,13 @@ this.math = function(sentValue,mathSymbol,startPos,howManyBytes){
 	this.write(numArray,'@ovr',startPos);
 	};
 }
-var $byte = new ByteList();
+var $byte = new ByteCache();
 
 
 //---------------------------------------------------------------------------//
 
 
-function ByteArray(arrayType,arraySize)
+function ByteList(arrayType,arraySize)
 {
 if(arrayType === '@static'){
 	//@if_Start:
