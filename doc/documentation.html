@@ -33,6 +33,9 @@ pre{text-align:left;margin:18px;}
 <li><a href='#O construtor ByteList()'>O construtor ByteList():</a></li>
 	<ul>
 	<li><a href='#O construtor ByteList()/new ByteList()'>new ByteList()</a></li>
+	<li><a href='#O construtor ByteList()/ByteList().byteValue[]'>ByteList().byteValue[]</a></li>
+	<li><a href='#O construtor ByteList()/ByteList().isDynamic'>ByteList().isDynamic</a></li>
+	<li><a href='#O construtor ByteList()/ByteList().size()'>ByteList().size()</a></li>
 	</ul>
 </ul>
 
@@ -107,7 +110,7 @@ contendo todos os seus caracteres convertidos para hexadecimal.
 <p>
 <strong>Parâmetro(s):</strong>
 <ul>
-<li><code>sentString:</code> <i>String</i> a ser passada.</li>
+<li><code>sentString</code>: <i>String</i> a ser passada.</li>
 </ul>
 </p>
 <p>
@@ -138,16 +141,17 @@ a <i>Array</i> inteira.
 <p>
 <strong>Parâmetro(s):</strong>
 <ul>
-<li><code>clearMode:</code> Modo de limpeza a ser escolhido:</li>
+<li><code>clearMode</code>: Modo de limpeza a ser escolhido:</li>
 	<ul>
-	<li><code class='mark'>'@range'</code>: Determina que a limpeza será de uma ou mais posições.</li>
+	<li><code class='mark'>'@range'</code>: Determina que a limpeza será de uma ou mais posições. 
+	 Valor padrão quando este parâmetro não é especificado.</li>
 	<li><code class='mark'>'@all'</code>: Determina que toda a <i>Array</i> será apagada.</li>
 	</ul>
-<li><code>startPos:</code> Só é utilizado se o <code>clearMode</code> for
+<li><code>startPos</code>: Só é utilizado se o <code>clearMode</code> for
 <code class='mark'>'@range'</code>. Indica qual será a primeira posição 
 a ser deletada.
 </li>
-<li><code>howManyBytes:</code> Só é utilizado se o <code>clearMode</code> for
+<li><code>howManyBytes</code>: Só é utilizado se o <code>clearMode</code> for
 <code class='mark'>'@range'</code>. Indica quantos <i>bytes</i> à frente, 
 contando com o primeiro selecionado, serão deletados no total.
 </li>
@@ -188,23 +192,24 @@ Escreve uma <i>Array</i> de <i>bytes</i> ou uma <i>String</i> em uma ou mais pos
 <p>
 <strong>Parâmetro(s):</strong>
 <ul>
-<li><code>byteArray:</code> <i>Array</i> de <i>bytes</i> a ser adicionada. 
+<li><code>byteArray</code>: <i>Array</i> de <i>bytes</i> a ser adicionada. 
 Note que não é possível ler valores "soltos", você precisará 
 passá-los com colchetes. Você também pode passar uma <i>String</i> para 
 ser escrita na <i>Array</i> de <i>bytes</i>, nesse caso, todos os 
 caracteres existentes serão devidamente passados para seus valores 
 correspondentes ao <i>CharCode</i> de cada um.</li>
-<li><code>typeMode:</code> Modo de digitação a ser escolhido:</li>
+<li><code>typeMode</code>: Modo de digitação a ser escolhido:</li>
 	<ul>
 	<li><code class='mark'>'@ins'</code>: Adicionar e inserir <i>bytes</i>, 
-	movendo os demais para uma posição a mais, se necessário.</li>
+	movendo os demais para uma posição a mais, se necessário.  Valor padrão 
+	quando este parâmetro não é especificado.</li>
 	<li><code class='mark'>'@ovr'</code>: Adicionar e sobrescrever <i>bytes</i>
 	que estiverem em seu caminho.</li>
 	<li><code class='mark'>'@rep'</code>: Substituir toda a <i>Array</i> de 
 	<i>bytes</i> existente por esta que for passada. Todos os <i>bytes</i> 
 	anteriormente presentes serão perdidos.</li>
 	</ul>
-<li><code>startPos:</code> Descartável quando o <code>typeMode</code> 
+<li><code>startPos</code>: Descartável quando o <code>typeMode</code> 
 for <code class='mark'>'@rep'</code>. Indica qual a primeira 
 posição a receber o primeiro valor da <code>byteArray</code>. Se 
 este valor não for especificado, a <code>byteArray</code> será 
@@ -240,10 +245,10 @@ inteira ou apenas um pedaço dela. A ordem dos <i>bytes</i> é em
 <p>
 <strong>Parâmetro(s):</strong>
 <ul>
-<li><code>sentValue:</code> O valor que será adicionado, subtraído, multiplicado ou dividido pela <i>Array</i>.</li>
-<li><code>mathSymbol:</code> Símbolo da operação matemática a ser executada:</li>
+<li><code>sentValue</code>: O valor que será adicionado, subtraído, multiplicado ou dividido pela <i>Array</i>.</li>
+<li><code>mathSymbol</code>: Símbolo da operação matemática a ser executada:</li>
 	<ul>
-	<li><code class='mark'>'@+'</code>: Adição.</li>
+	<li><code class='mark'>'@+'</code>: Adição. Valor padrão quando este parâmetro não é especificado.</li>
 	<li><code class='mark'>'@-'</code>: Subtração.</li>
 	<li><code class='mark'>'@*'</code>: Multiplicação.</li>
 	<li><code class='mark'>'@/'</code>: Divisão.</li>
@@ -283,7 +288,83 @@ processa o que lhe foi pedido e envia o resultado de volta para a <code class='m
 correspondente.
 </p>
 
-<h4 id='O construtor ByteList()/new ByteList()'>new ByteList(arrayType,arraySize):</h3>
+<h4 id='O construtor ByteList()/new ByteList()'>new ByteList(arrayType,arraySize):</h4>
+<hr>
+<p>
+Apenas cria uma nova <code class='mark'>ByteList()</code>. Possui alguns parâmetros 
+especiais em comparação com a  <code class='mark'>Uint8Array()</code>.
+</p>
+<p>
+<strong>Parâmetro(s):</strong>
+<ul>
+<li><code>arrayType</code>: Define o tipo de alocação da <i>Array</i> de <i>bytes</i>:</li>
+	<ul>
+	<li><code class='mark'>'@static'</code>: Tamanho estático. O tamanho desta <i>Array</i> 
+	não pode ser aumentado nem diminuído, funcionando assim como uma <code class='mark'>Uint8Array()</code>.</li>
+	<li><code class='mark'>'@dynamic'</code>: Tamanho dinâmico. O tamanho desta <i>Array</i> 
+	pode receber uma vasta quantidade de valores e ter um tamanho variável de alocações.</li>
+	</ul>
+<li><code>arraySize</code>: Usado apenas quando o <code>arrayType</code> for <code class='mark'>'@static'</code>. 
+Determina o tamanho da <i>Array</i>.</li>
+</ul>
+</p>
+<p>
+<div>
+<pre>
+<code>
+// Declaração de uma Array estática e uma Array dinâmica, respectivamente:
+var stactArray = new ByteList('@static',4);
+var dynamArray = new ByteList('@dynamic');
+</code>
+</pre>
+</div>
+</p>
+
+<h4 id='O construtor ByteList()/ByteList().byteValue[]'>ByteList().byteValue[]:</h4>
+<hr>
+<p>
+Esta é a <i>Array</i> principal. Todos os seus valores são guardados aqui. Diferente da 
+<code class='mark'>$byte.byteValue[]</code>, no entanto, esta se comporta 
+de maneira igual à <i>Uint8Array()</i>. Sendo assim, todos os valores colocados aqui 
+estarão em um formato de verdade de <i>bytes</i>. Não será possível inserir valores 
+diretamente se a <code class='mark'>ByteList()</code> for dinâmica.
+</p>
+<p>
+<div>
+<pre>
+<code>
+// Criar e atribuir valores a uma Array estática:
+var staticArray = new ByteList('@static',4);
+	staticArray.byteValue[0] = 0x12;
+	staticArray.byteValue[1] = 0x24;
+	staticArray.byteValue[2] = 0x36;
+	staticArray.byteValue[3] = 0x48;
+</code>
+</pre>
+</div>
+</p>
+
+<h4 id='O construtor ByteList()/ByteList().isDynamic'>ByteList().isDynamic:</h4>
+<hr>
+<p>
+Esta variável serve para identificar se a <i>Array</i> em questão foi declarada como 
+estática (seu valor será <code class='mark'>false</code>) ou dinâmica (seu valor será <code class='mark'>true</code>). 
+Ambos os tipos de variáveis possuem as mesmas funções, mas elas agem de forma diferenciada para cada um. Você pode 
+utilizar esta variável para trocar o tipo de variável rapidamente.
+</p>
+<p>
+<div>
+<pre>
+<code>
+// Criar uma Array estática e convertê-la para uma Array dinâmica:
+var staticArray = new ByteList('@static',4);
+	staticArray.isDynamic = true;
+</code>
+</pre>
+</div>
+</p>
+
+<h4 id='O construtor ByteList()/ByteList().size()'>ByteList().size():</h4>
 <hr>
 <p>
 WIP.
