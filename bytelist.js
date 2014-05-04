@@ -8,6 +8,7 @@
  * All rights reserved.
  */
 
+
 function ByteCache()
 {
 this.byteValue = [];
@@ -46,10 +47,18 @@ this.clear = function(clearMode,startPos,howManyBytes){
 			this.byteValue.splice(startPos,1);
 			}
 		}
-	
 	else if(clearMode === '@all'){
 		//@elseif_Start:
 		this.byteValue = [];
+		}
+	
+	//@default_clearMode:
+	else{
+		//@range:
+		for(i = 0; i < howManyBytes; i += 1){
+			//@for_Start:
+			this.byteValue.splice(startPos,1);
+			}
 		}
 	};
 
@@ -88,6 +97,12 @@ this.write = function(byteArray,typeMode,startPos){
 				}
 			
 			this.byteValue[i] = Uint8Data[0];
+			}
+		
+		//@default_typeMode:
+		else{
+			//@ins:
+			this.byteValue.splice(startPos+i,0,Uint8Data[0]);
 			}
 		}
 	};
@@ -137,6 +152,12 @@ this.math = function(sentValue,mathSymbol,startPos,howManyBytes){
 	else if(mathSymbol === '@/'){
 		//@elseif_Start:
 		numString = numString / sentValue;
+		}
+	
+	//@default_mathSymbol:
+	else{
+		//@+:
+		numString = numString + sentValue;
 		}
 	
 	numString = numString.toString(16);
