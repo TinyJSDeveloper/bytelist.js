@@ -54,11 +54,8 @@ this.clear = function(clearMode,startPos,howManyBytes){
 	
 	//@default_clearMode:
 	else{
-		//@range:
-		for(i = 0; i < howManyBytes; i += 1){
-			//@for_Start:
-			this.byteValue.splice(startPos,1);
-			}
+		//@all:
+		this.byteValue = [];
 		}
 	};
 
@@ -192,9 +189,22 @@ else if(arrayType === '@dynamic'){
 	arrayType = true;
 	}
 
+//@default_arrayType:
+else{
+	//@static:
+	arrayType = false;
+	}
+
 if(arraySize < 0 || arraySize == null){
 	//@if_Start:
-	arraySize = 0;
+	if(arrayType === true){
+		//@if_Start:
+		arraySize = 0;
+		}
+	else{
+		//@else_Start:
+		arraySize = 1;
+		}
 	}
 
 this.byteValue = new Uint8Array(arraySize);
@@ -247,6 +257,12 @@ this.write = function(byteArray,byteOrder,typeMode,startPos){
 		$byte.write(byteArray.reverse(),typeMode,startPos);
 		}
 	
+	//@default_byteOrder:
+	else{
+		//@be:
+		$byte.write(byteArray,typeMode,startPos);
+		}
+	
 	this.importArray($byte.byteValue);
 	};
 
@@ -270,6 +286,12 @@ this.math = function(sentValue,mathSymbol,byteOrder,startPos,howManyBytes){
 	else if(byteOrder === '@le'){
 		//@elseif_Start:
 		$byte.math(sentValue.reverse(),mathSymbol,startPos,howManyBytes);
+		}
+	
+	//@default_byteOder:
+	else{
+		//@be:
+		$byte.math(sentValue,mathSymbol,startPos,howManyBytes);
 		}
 	
 	this.importArray($byte.byteValue);
